@@ -10,12 +10,18 @@
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'ivy-publish'
+
+group = 'org.eclipse.mylyn'
+version = '0.1-SNAPSHOT'
+
 
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use 'maven central' for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     mavenCentral()
+
 }
 
 // In this section you declare the dependencies for your production and test code
@@ -72,3 +78,39 @@ sourceSets {
   }
 }
 
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'src'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+publishing {
+	publications {
+		ivyJava( IvyPublication ) {
+			from components.java
+			artifact(sourcesJar) {
+                type "source"
+                conf "runtime"
+            }
+		}
+	}
+	repositories {
+		ivy {
+			// our legacy team repo
+	    	url 'file://s/repository/maven'
+	    	layout 'pattern' , {
+	            artifact '[organisation].[module]/[type]s/[artifact]-[revision](.[ext])'
+	        }
+	    }
+	}
+}

@@ -12,7 +12,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'ivy-publish'
 
-group = 'org.eclipse.mylyn'
+group = 'com.infodesire'
 version = '0.1-SNAPSHOT'
 
 

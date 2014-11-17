@@ -33,7 +33,7 @@ This is the cycle I have to go manually to get a new release working here.
   
 ### Remove some stuff
 
-We remove the pre built aritfacts in the downloaded project:
+We remove the pre built artifacts in the downloaded project:
 
 		rm *.jar
 		
